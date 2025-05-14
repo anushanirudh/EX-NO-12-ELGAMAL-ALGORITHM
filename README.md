@@ -1,5 +1,10 @@
 # EX-NO-12-ELGAMAL-ALGORITHM
 
+
+## NAME: R ANIRUDH
+## REG NO:212223230016
+
+
 ## AIM:
 To Implement ELGAMAL ALGORITHM
 
@@ -24,9 +29,50 @@ To Implement ELGAMAL ALGORITHM
 6. Security: The security of the ElGamal algorithm relies on the difficulty of solving the discrete logarithm problem in a large prime field, making it secure for encryption.
 
 ## Program:
+```
+# Function to compute modular exponentiation (base^exp % mod)
+def modExp(base, exp, mod):
+    result = 1
+    while exp > 0:
+        if exp % 2 == 1:
+            result = (result * base) % mod
+        base = (base * base) % mod
+        exp = exp // 2
+    return result
 
+def main():
+    # Step 1: Input a large prime number (p) and a generator (g)
+    p = int(input("Enter a large prime number (p): "))
+    g = int(input("Enter a generator (g): "))
+
+    # Step 2: Alice inputs her private key
+    privateKeyA = int(input("Enter Alice's private key: "))
+
+    # Step 3: Compute Alice's public key (public_key = g^privateKeyA mod p)
+    publicKeyA = modExp(g, privateKeyA, p)
+    print(f"Alice's public key: {publicKeyA}")
+
+    # Step 4: Bob inputs the message to be encrypted and selects a random k
+    message = int(input("Enter the message to encrypt (as a number): "))
+    k = int(input("Enter a random number k: "))
+
+    # Step 5: Bob computes ciphertext (c1 = g^k mod p, c2 = (message * publicKeyA^k) mod p)
+    c1 = modExp(g, k, p)
+    c2 = (message * modExp(publicKeyA, k, p)) % p
+    print(f"Encrypted message (c1, c2): ({c1}, {c2})")
+
+    # Step 6: Alice decrypts the message (decryptedMessage = (c2 * c1^(p-1-privateKeyA)) mod p)
+    decryptedMessage = (c2 * modExp(c1, p - 1 - privateKeyA, p)) % p
+    print(f"Decrypted message: {decryptedMessage}")
+
+if __name__ == "__main__":
+    main()
+
+```
 
 ## Output:
+
+![image](https://github.com/user-attachments/assets/6b627485-2600-4d7b-8ae9-196f3be99f1d)
 
 
 ## Result:
